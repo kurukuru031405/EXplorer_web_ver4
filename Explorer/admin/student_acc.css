@@ -1,0 +1,66 @@
+@font-face {
+    font-family: myFont;
+    src: url(VCR_OSD_MONO_1.001.ttf);
+}
+
+* {
+    font-family: myFont;
+}
+
+table {
+    position: fixed;
+    right: 0;
+    height: 100px;
+    top: 180px;
+    width: 80%;
+    overflow: auto;
+}
+
+th {
+    background-color: salmon;
+    border: 1px salmon;
+}
+
+.sel {
+    width: 10%;
+}
+
+.name {
+    width: 30%;
+}
+
+.teacher_acc {
+    width: 30%;
+}
+
+.pass {
+    width: 30%;
+}
+
+td {
+    border-bottom: 1px solid #ddd;
+    height: 50px;
+    text-align: center;
+}
+
+.search input {
+    position: fixed;
+    top: 150px;
+    left: 320px;
+    width: 35%;
+}
+
+.reset button {
+    position: fixed;
+    top: 150px;
+    right: 0px;
+    width: 20%;
+}
+
+
+.create button {
+    position: fixed;
+    top: 150px;
+    right: 320px;
+    width: 20%;
+}

@@ -1,0 +1,48 @@
+@font-face {
+    font-family: myFont;
+    src: url(VCR_OSD_MONO_1.001.ttf);
+}
+
+* {
+    font-family: myFont;
+}
+
+
+th {
+    background-color: salmon;
+    border: 1px salmon;
+}
+
+.sel {
+    width: 10%;
+}
+
+.name {
+    width: 30%;
+}
+
+.teacher_acc {
+    width: 30%;
+}
+
+.pass {
+    width: 30%;
+}
+
+td {
+    border-bottom: 1px solid #ddd;
+    height: 50px;
+    text-align: center;
+}
+
+
+
+body {
+    overflow: scroll;
+    background-image: 
+}
+
+h2{
+    position:relative;
+    top: 20px;
+}

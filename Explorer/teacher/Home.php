@@ -1,0 +1,135 @@
+<?php
+session_start();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "divinedb";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("". $conn->connect_error);
+}
+
+$t_ID = "";
+$t_pwd = "";
+if (isset($_SESSION['teacher_ID'])) { $t_ID = $_SESSION['teacher_ID']; }
+if (isset($_SESSION['teacher_pwd'])) { $t_ID = $_SESSION['teacher_pwd']; }
+
+$retrieve_students = $conn->query("SELECT ROW_NUMBER() OVER (ORDER BY Mastery ASC) AS Rank, ID, PlayerName, Progress, Mastery FROM Student; ");
+?>
+
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="nav_files/nav_ZZMT.css">
+<link href="nav_files/boxicons.min_ZZMT.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="Home.css"/>
+
+
+
+</head><body style="height: 491.8px;"><div class="header">
+    <a href="#default" class="logo"><img src="tANA0h-1717114438.png" alt="dmfc">Divine Mercy College Foundation Inc.</a>
+</div>
+
+
+     <div class="thirty-sixty">
+        <nav>
+        <ul class="nav-link">
+            <li><a href="home.php" class="nav-link" target="_Home">Home</a></li>
+            <li><a href="Content.php" target="_Home">Content</a></li>
+            <li><a href="teacherProfile.php" class="nav-link" target="_Home">Profile</a></li>
+        </ul">
+        </nav>
+    <main>
+    <h2>Dashboard</h2>
+    <div class="dashboard">
+        <button onclick="DashboardPrev()"></button>
+
+        <div class="content">
+
+        <section class="top">
+            <h3>Top Three (3) Progress</h3>
+            
+            <?php
+                $get_top_progress = $conn->query("SELECT * FROM Student ORDER BY Progress ASC LIMIT 3;");
+                if ($get_top_progress->num_rows >= 3) {
+                    $row1 = $get_top_progress->fetch_assoc();
+                    echo "<div>1st " . htmlspecialchars($row1["PlayerName"]) . " (" . htmlspecialchars($row1["Progress"]) . ")</div>";
+
+                    $row2 = $get_top_progress->fetch_assoc();
+                    echo "<div>2nd " . htmlspecialchars($row2["PlayerName"]) . " (" . htmlspecialchars($row2["Progress"]) . ")</div>";
+
+                    $row3 = $get_top_progress->fetch_assoc();
+                    echo "<div>3rd " . htmlspecialchars($row3["PlayerName"]) . " (" . htmlspecialchars($row3["Progress"]) . ")</div>";
+                } else {
+                    echo "<div>No records found.";
+                }
+            ?>
+        </section>
+
+        <section class="top">
+            <h3>Top Three (3) Mastery</h3>
+            <?php
+                $get_top_mastery = $conn->query("SELECT * FROM Student ORDER BY Mastery ASC LIMIT 3;");
+                if ($get_top_mastery->num_rows >= 3) {
+                    $row1 = $get_top_mastery->fetch_assoc();
+                    echo "<div>1st " . htmlspecialchars($row1["PlayerName"]) . " (" . htmlspecialchars($row1["Mastery"]) . ")</div>";
+
+                    $row2 = $get_top_mastery->fetch_assoc();
+                    echo "<div>2nd " . htmlspecialchars($row2["PlayerName"]) . " (" . htmlspecialchars($row2["Mastery"]) . ")</div>";
+
+                    $row3 = $get_top_mastery->fetch_assoc();
+                    echo "<div>3rd " . htmlspecialchars($row3["PlayerName"]) . " (" . htmlspecialchars($row3["Mastery"]) . ")</div>";
+                } else {
+                    echo "<div>No records found.";
+                }
+            ?>
+        </section>
+        </div>
+        <button onclick="DashboardNext()"></button>
+    </div>
+    
+    <br/>
+
+    <h2>Leaderboards</h2>
+    <form action="/action_page.php">
+        <select name="Sec">
+            <option value="sec1">All Sections</option>
+            <option value="sec1">Grade 12 - Trustworthy (ICT)</option>
+        </select>
+        <input type="text" placeholder="Please enter name" required name="searchStudent" />
+    </form> 
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Progress</th>
+                <th>Mastery</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if ($retrieve_students->num_rows > 0) {
+                    while ($row = $retrieve_students->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row["Rank"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["PlayerName"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Progress"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Mastery"]) . "</td>";
+                    echo "<td><a href=\"Students.php?id=\"". htmlspecialchars($row["ID"]) . "\">View</a></td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>No records found</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</main>
+</div>
+<script src="teacher_home.js"></script>
+</body>
+</html>
